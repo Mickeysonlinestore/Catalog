@@ -597,7 +597,7 @@ document.getElementById('wa-btn').addEventListener('click', function() {
   const lines = Object.values(basket).map(v =>
     `• ${v.qty}x ${v.name} ${v.size} — ${(v.price*v.qty).toLocaleString()}k`).join('\n');
   const total = totalPrice().toLocaleString();
-  const msg = `Halo Mickysonline! 🥃\n\nI'd like to order:\n${lines}\n\n*Total: ${total}k*\n\nNama:\nAlamat:\nPembayaran:`;
+  const msg = `Halo Mickysonline! 🥃\n\nI'd like to order:\n${lines}\n\n*Total: ${total}k*\n\nNama:\nAlamat:`;
   this.href = `https://wa.me/628119788269?text=${encodeURIComponent(msg)}`;
 });
 
