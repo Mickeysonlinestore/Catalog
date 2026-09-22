@@ -1,0 +1,671 @@
+<title>Mickysonline</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap">
+<style>
+:root {
+  --bg:         #0c0a07;
+  --surf:       #171209;
+  --surf2:      #211a0e;
+  --border:     #302515;
+  --gold:       #c9a84c;
+  --gold-hi:    #e6ca78;
+  --gold-dim:   rgba(201,168,76,.18);
+  --text:       #ece6da;
+  --sub:        #a0906e;
+  --muted:      #5a4e38;
+  --promo-bg:   #1a1205;
+  --promo-ring: rgba(201,168,76,.35);
+  --tag-on:     #0c0a07;
+  --add-bg:     rgba(201,168,76,.12);
+  --add-hover:  rgba(201,168,76,.25);
+  --drawer-bg:  #13100a;
+  body { background: var(--bg); color: var(--text); }
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --bg:         #f5f0e6;
+    --surf:       #ede5d2;
+    --surf2:      #e4d9c4;
+    --border:     #cec0a0;
+    --gold:       #8a6b20;
+    --gold-hi:    #7a5c18;
+    --gold-dim:   rgba(138,107,32,.12);
+    --text:       #1a1209;
+    --sub:        #6b5830;
+    --muted:      #bdb09a;
+    --promo-bg:   #ede5d2;
+    --promo-ring: rgba(138,107,32,.4);
+    --tag-on:     #f5f0e6;
+    --add-bg:     rgba(138,107,32,.1);
+    --add-hover:  rgba(138,107,32,.22);
+    --drawer-bg:  #e8e0cc;
+    body { background: var(--bg); }
+  }
+}
+:root[data-theme="light"] {
+  --bg:         #f5f0e6;
+  --surf:       #ede5d2;
+  --surf2:      #e4d9c4;
+  --border:     #cec0a0;
+  --gold:       #8a6b20;
+  --gold-hi:    #7a5c18;
+  --gold-dim:   rgba(138,107,32,.12);
+  --text:       #1a1209;
+  --sub:        #6b5830;
+  --muted:      #bdb09a;
+  --promo-bg:   #ede5d2;
+  --promo-ring: rgba(138,107,32,.4);
+  --tag-on:     #f5f0e6;
+  --add-bg:     rgba(138,107,32,.1);
+  --add-hover:  rgba(138,107,32,.22);
+  --drawer-bg:  #e8e0cc;
+  body { background: var(--bg); }
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'DM Sans', system-ui, sans-serif; font-size: 14px; line-height: 1.5;
+  -webkit-font-smoothing: antialiased; padding-inline: 0; min-height: 100%; }
+
+/* ── HEADER ── */
+.hdr { position: sticky; top: env(safe-area-inset-top,0px); z-index: 80;
+  background: var(--surf); border-bottom: 1px solid var(--border); padding: 14px 20px 12px; }
+.hdr-inner { max-width: 860px; margin: auto; display: flex; align-items: center;
+  justify-content: space-between; gap: 12px; }
+.brand { display: flex; flex-direction: column; gap: 1px; }
+.brand-name { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 22px; font-weight: 600;
+  color: var(--gold); letter-spacing: .02em; line-height: 1; }
+.brand-line { font-size: 11px; color: var(--sub); letter-spacing: .04em; margin-top: 3px; }
+.hdr-right { display: flex; gap: 8px; align-items: center; flex-shrink: 0; }
+.chip { font-size: 11px; color: var(--sub); background: var(--surf2); border: 1px solid var(--border);
+  border-radius: 99px; padding: 3px 10px; white-space: nowrap; }
+.chip b { color: var(--text); font-weight: 500; }
+
+/* basket button in header */
+.basket-btn { position: relative; background: var(--add-bg); border: 1px solid var(--border);
+  border-radius: 8px; padding: 7px 12px; cursor: pointer; color: var(--text);
+  display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 500;
+  transition: background .15s, border-color .15s; white-space: nowrap; }
+.basket-btn:hover { background: var(--add-hover); border-color: var(--gold); }
+.basket-btn.has-items { border-color: var(--gold); color: var(--gold); }
+.basket-count { background: var(--gold); color: var(--tag-on); border-radius: 99px;
+  font-size: 10px; font-weight: 700; padding: 1px 6px; min-width: 18px; text-align: center; }
+.basket-count[hidden] { display: none!important; }
+
+/* ── PROMO ── */
+.promo-wrap { padding: 14px 20px 0; max-width: 860px; margin: 14px auto 0; }
+.promo-label { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 11px; font-weight: 600;
+  letter-spacing: .14em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px;
+  display: flex; align-items: center; gap: 8px; }
+.promo-label::after { content: ''; flex: 1; height: 1px; background: var(--promo-ring); }
+.promo-scroll { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px; scrollbar-width: none; }
+.promo-scroll::-webkit-scrollbar { display: none; }
+.promo-card { flex-shrink: 0; background: var(--promo-bg); border: 1px solid var(--promo-ring);
+  border-radius: 8px; padding: 10px 14px; min-width: 160px; max-width: 180px; cursor: pointer;
+  transition: border-color .15s; }
+.promo-card:hover { border-color: var(--gold); }
+.promo-card-name { font-size: 12px; font-weight: 500; line-height: 1.3; margin-bottom: 3px; }
+.promo-card-sub { font-size: 10px; color: var(--sub); }
+.promo-card-price { font-size: 15px; font-weight: 500; color: var(--gold); font-variant-numeric: tabular-nums; margin-top: 6px; }
+.promo-card-price small { font-size: 10px; color: var(--sub); font-weight: 400; }
+.promo-card-add { margin-top: 8px; width: 100%; background: var(--add-bg); border: 1px solid var(--border);
+  border-radius: 6px; padding: 5px; font-size: 11px; color: var(--gold); cursor: pointer;
+  transition: background .12s; text-align: center; }
+.promo-card-add:hover { background: var(--add-hover); }
+
+/* ── CONTROLS ── */
+.ctrl-wrap { padding: 14px 20px 0; max-width: 860px; margin: 0 auto; }
+.search-ring { display: flex; align-items: center; gap: 8px; background: var(--surf2);
+  border: 1px solid var(--border); border-radius: 8px; padding: 9px 12px; margin-bottom: 10px;
+  transition: border-color .15s; }
+.search-ring:focus-within { border-color: var(--gold); }
+.search-ring svg { flex-shrink: 0; color: var(--muted); }
+.search-ring input { background: transparent; border: none; outline: none; color: var(--text); font: inherit; width: 100%; }
+.search-ring input::placeholder { color: var(--muted); }
+.tags { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
+.tags::-webkit-scrollbar { display: none; }
+.tag { flex-shrink: 0; font-size: 12px; background: var(--surf2); border: 1px solid var(--border);
+  border-radius: 99px; padding: 5px 13px; color: var(--sub); cursor: pointer;
+  transition: all .12s; white-space: nowrap; }
+.tag:hover { color: var(--text); border-color: var(--gold); }
+.tag.on { background: var(--gold); border-color: var(--gold); color: var(--tag-on); font-weight: 500; }
+
+.meta-row { padding: 8px 20px 0; max-width: 860px; margin: 0 auto; font-size: 11px; color: var(--muted); }
+
+/* ── CATALOG ── */
+.catalog { max-width: 860px; margin: 10px auto 0; padding: 0 20px 100px; }
+.section { margin-bottom: 28px; }
+.section-hd { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 11px; font-weight: 600;
+  letter-spacing: .14em; text-transform: uppercase; color: var(--gold);
+  padding-block: 6px; border-bottom: 1px solid var(--border); margin-bottom: 2px; }
+.row { display: flex; align-items: center; gap: 10px; padding: 7px 0;
+  border-bottom: 1px solid var(--border); }
+.row:last-child { border-bottom: none; }
+.row-name { font-size: 13px; line-height: 1.35; flex: 1; }
+.row-size { font-size: 10px; color: var(--sub); margin-left: 5px; }
+.row-price { font-size: 13px; font-weight: 500; color: var(--gold-hi);
+  font-variant-numeric: tabular-nums; white-space: nowrap; text-align: right; min-width: 52px; }
+.row-price sub { font-size: 9px; color: var(--sub); font-weight: 400; vertical-align: baseline; }
+/* in-basket indicator */
+.row.in-basket .row-name { color: var(--gold-hi); }
+
+/* add button */
+.add-btn { flex-shrink: 0; width: 26px; height: 26px; border-radius: 50%;
+  background: var(--add-bg); border: 1px solid var(--border); color: var(--gold);
+  cursor: pointer; font-size: 16px; line-height: 1; display: flex; align-items: center;
+  justify-content: center; transition: background .12s, border-color .12s, transform .1s;
+  font-weight: 300; padding-bottom: 1px; }
+.add-btn:hover { background: var(--add-hover); border-color: var(--gold); }
+.add-btn:active { transform: scale(.88); }
+.add-btn.in { background: var(--gold); border-color: var(--gold); color: var(--tag-on); font-size: 13px; font-weight: 700; }
+
+.no-res { text-align: center; padding: 48px 0; color: var(--muted); font-style: italic; }
+
+/* ── BASKET DRAWER ── */
+.backdrop { position: fixed; inset: 0; background: rgba(0,0,0,.55); z-index: 200;
+  opacity: 0; pointer-events: none; transition: opacity .25s; }
+.backdrop.open { opacity: 1; pointer-events: all; }
+
+.drawer { position: fixed; bottom: 0; left: 0; right: 0; z-index: 201;
+  background: var(--drawer-bg); border-top: 1px solid var(--border);
+  border-radius: 16px 16px 0 0;
+  transform: translateY(100%); transition: transform .3s cubic-bezier(.32,.72,0,1);
+  max-height: 80vh; display: flex; flex-direction: column;
+  padding-bottom: env(safe-area-inset-bottom, 0px); }
+.drawer.open { transform: translateY(0); }
+
+.drawer-hd { display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 20px 12px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
+.drawer-title { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 18px;
+  font-weight: 600; color: var(--gold); }
+.drawer-close { background: var(--surf2); border: 1px solid var(--border); border-radius: 50%;
+  width: 28px; height: 28px; cursor: pointer; color: var(--sub); font-size: 16px;
+  display: flex; align-items: center; justify-content: center; transition: color .12s; }
+.drawer-close:hover { color: var(--text); }
+
+.drawer-items { overflow-y: auto; flex: 1; padding: 8px 0; }
+.basket-empty { padding: 32px 20px; text-align: center; color: var(--muted); font-style: italic; font-size: 13px; }
+
+.bitem { display: flex; align-items: center; gap: 10px; padding: 10px 20px;
+  border-bottom: 1px solid var(--border); }
+.bitem:last-child { border-bottom: none; }
+.bitem-info { flex: 1; min-width: 0; }
+.bitem-name { font-size: 13px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.bitem-size { font-size: 10px; color: var(--sub); }
+.bitem-line { font-size: 11px; color: var(--sub); font-variant-numeric: tabular-nums; }
+
+.qty-ctrl { display: flex; align-items: center; gap: 0; flex-shrink: 0; }
+.qty-btn { width: 28px; height: 28px; background: var(--surf2); border: 1px solid var(--border);
+  color: var(--text); cursor: pointer; font-size: 15px; display: flex; align-items: center;
+  justify-content: center; transition: background .1s; line-height: 1; }
+.qty-btn:first-child { border-radius: 6px 0 0 6px; }
+.qty-btn:last-child { border-radius: 0 6px 6px 0; }
+.qty-btn:hover { background: var(--add-hover); }
+.qty-val { min-width: 32px; text-align: center; font-size: 13px; font-weight: 500;
+  font-variant-numeric: tabular-nums; background: var(--surf2);
+  border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 4px 2px; }
+.bitem-del { flex-shrink: 0; background: none; border: none; color: var(--muted); cursor: pointer;
+  font-size: 16px; padding: 4px; line-height: 1; transition: color .12s; }
+.bitem-del:hover { color: #e05; }
+
+.drawer-ft { flex-shrink: 0; border-top: 1px solid var(--border); padding: 14px 20px; }
+.drawer-total { display: flex; justify-content: space-between; align-items: baseline;
+  margin-bottom: 12px; }
+.drawer-total-label { font-size: 13px; color: var(--sub); }
+.drawer-total-val { font-size: 20px; font-weight: 600; color: var(--gold);
+  font-family: 'Cormorant Garamond', Georgia, serif; font-variant-numeric: tabular-nums; }
+.drawer-total-val sub { font-size: 11px; color: var(--sub); font-weight: 400;
+  font-family: 'DM Sans', sans-serif; vertical-align: baseline; }
+
+.wa-btn { width: 100%; background: #25d366; border: none; border-radius: 10px; padding: 13px;
+  color: #fff; font-size: 15px; font-weight: 600; cursor: pointer; display: flex;
+  align-items: center; justify-content: center; gap: 8px; transition: background .15s;
+  text-decoration: none; box-sizing: border-box; }
+.wa-btn:hover { background: #1ebe5d; }
+.wa-btn svg { flex-shrink: 0; }
+.clear-btn { width: 100%; background: none; border: none; color: var(--muted); font-size: 11px;
+  cursor: pointer; padding-top: 10px; transition: color .12s; }
+.clear-btn:hover { color: #e05; }
+
+/* ── FOOTER ── */
+.foot { background: var(--surf); border-top: 1px solid var(--border);
+  padding: 18px 20px calc(18px + env(safe-area-inset-bottom,0px)); text-align: center; }
+.foot-inner { max-width: 860px; margin: auto; }
+.foot-cta { font-size: 13px; margin-bottom: 4px; }
+.foot-cta a { color: var(--gold); text-decoration: none; font-weight: 500; }
+.foot-ig { font-size: 12px; color: var(--sub); }
+.foot-date { font-size: 10px; color: var(--muted); margin-top: 8px; }
+
+@media (max-width: 500px) {
+  .hdr { padding: 12px 16px 10px; }
+  .hdr-chips { display: none; }
+  .promo-wrap, .ctrl-wrap, .catalog, .meta-row { padding-inline: 16px; }
+  .brand-name { font-size: 20px; }
+}
+</style>
+
+<!-- HEADER -->
+<header class="hdr">
+  <div class="hdr-inner">
+    <div class="brand">
+      <div class="brand-name">Mickysonline</div>
+      <div class="brand-line">Liquor &amp; Wine Warehouse · Jakarta</div>
+    </div>
+    <div class="hdr-right">
+      <span class="chip hdr-chips">🕘 <b>9am–9pm</b></span>
+      <button class="basket-btn" id="basket-toggle" aria-label="Open basket">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <path d="M16 10a4 4 0 01-8 0"/>
+        </svg>
+        Basket
+        <span class="basket-count" id="basket-count" hidden>0</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- PROMO -->
+<div class="promo-wrap">
+  <div class="promo-label">Buy 2 Promo</div>
+  <div class="promo-scroll" id="promo-scroll"></div>
+</div>
+
+<!-- CONTROLS -->
+<div class="ctrl-wrap">
+  <div class="search-ring">
+    <svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.6">
+      <circle cx="6.5" cy="6.5" r="4.5"/><line x1="10" y1="10" x2="14" y2="14"/>
+    </svg>
+    <input id="q" type="search" placeholder="Search brands, styles…" autocomplete="off" spellcheck="false">
+  </div>
+  <div class="tags" id="tags"></div>
+</div>
+<div class="meta-row" id="meta"></div>
+<div class="catalog" id="catalog"></div>
+
+<!-- FOOTER -->
+<footer class="foot">
+  <div class="foot-inner">
+    <div class="foot-cta">Order via WhatsApp: <a href="https://wa.me/628119788269">0811‑9788‑269</a></div>
+    <div class="foot-ig">Follow us <a href="#" style="color:var(--gold)">@mickysonline</a></div>
+    <div class="foot-date">Price list · 22 September 2026 · Prices in IDR thousands</div>
+  </div>
+</footer>
+
+<!-- BASKET DRAWER -->
+<div class="backdrop" id="backdrop"></div>
+<div class="drawer" id="drawer" role="dialog" aria-label="Your basket">
+  <div class="drawer-hd">
+    <div class="drawer-title">Your Basket</div>
+    <button class="drawer-close" id="drawer-close" aria-label="Close">✕</button>
+  </div>
+  <div class="drawer-items" id="drawer-items">
+    <div class="basket-empty">Your basket is empty.</div>
+  </div>
+  <div class="drawer-ft" id="drawer-ft" hidden>
+    <div class="drawer-total">
+      <span class="drawer-total-label">Estimated total</span>
+      <span class="drawer-total-val" id="drawer-total">0<sub>k</sub></span>
+    </div>
+    <a class="wa-btn" id="wa-btn" href="#" target="_blank" rel="noopener noreferrer">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+      </svg>
+      Send Order via WhatsApp
+    </a>
+    <button class="clear-btn" id="clear-btn">Clear basket</button>
+  </div>
+</div>
+
+<script>
+const PROMOS = [
+  {name:"Cenote Reposado",       size:"70cl",price:2400,promo:true},
+  {name:"Kavalan Oloroso Sherry",size:"70cl",price:3800,promo:true},
+  {name:"GlenGrant Arboralis",   size:"70cl",price:1800,promo:true},
+  {name:"Glenlivet White Oak",   size:"1L",  price:2300,promo:true},
+  {name:"Grey Goose",            size:"70cl",price:1300,promo:true},
+  {name:"Singleton 12 LN",       size:"70cl",price:1400,promo:true},
+  {name:"Glenfiddich 15",        size:"1L",  price:2700,promo:true},
+];
+
+const ALL = [
+  {c:"Tequila",n:"Codigo Reposado",s:"1.75L",p:3200},{c:"Tequila",n:"Codigo Reposado",s:"1L",p:1700},
+  {c:"Tequila",n:"Codigo Blanco",s:"1L",p:1400},{c:"Tequila",n:"Codigo Rosa",s:"1L",p:1600},
+  {c:"Tequila",n:"Codigo Reposado",s:"70cl",p:1400},{c:"Tequila",n:"Codigo Rosa Blanco",s:"1.75L",p:3100},
+  {c:"Tequila",n:"Codigo Rosa Reposado",s:"70cl",p:1700},{c:"Tequila",n:"Codigo Rosa",s:"70cl",p:1400},
+  {c:"Tequila",n:"Codigo Blanco",s:"70cl",p:1150},{c:"Tequila",n:"Codigo Anejo",s:"70cl",p:2300},
+  {c:"Tequila",n:"Cenote Reposado",s:"70cl",p:1300},{c:"Tequila",n:"Casamigos Reposado",s:"70cl",p:2100},
+  {c:"Tequila",n:"Casamigos Blanco",s:"70cl",p:2100},{c:"Tequila",n:"Herradura Anejo",s:"70cl",p:1300},
+  {c:"Tequila",n:"Herradura Plata",s:"70cl",p:850},{c:"Tequila",n:"Herradura Reposado",s:"70cl",p:1000},
+  {c:"Tequila",n:"1800 Coconut",s:"70cl",p:850},{c:"Tequila",n:"1800 Anejo",s:"70cl",p:850},
+  {c:"Tequila",n:"1800 Reposado",s:"70cl",p:850},{c:"Tequila",n:"1800 Blanco",s:"70cl",p:850},
+  {c:"Tequila",n:"1800 Cristallino",s:"70cl",p:1050},{c:"Tequila",n:"Teremana Blanco",s:"70cl",p:1000},
+  {c:"Tequila",n:"Patrón Silver",s:"70cl",p:1100},{c:"Tequila",n:"Patrón Reposado",s:"70cl",p:1200},
+  {c:"Tequila",n:"Patrón Anejo",s:"70cl",p:1300},{c:"Tequila",n:"Jose Cuervo",s:"70cl",p:550},
+  {c:"Tequila",n:"Tequila Rose Liquor",s:"70cl",p:700},{c:"Tequila",n:"Don Julio Reposado",s:"70cl",p:1200},
+  {c:"Tequila",n:"Don Julio Anejo",s:"70cl",p:1300},{c:"Tequila",n:"Don Julio Blanco",s:"70cl",p:1300},
+  {c:"Tequila",n:"Don Julio 1942",s:"70cl",p:3400},{c:"Tequila",n:"Don Julio 1942 Rosado",s:"70cl",p:3300},
+  {c:"Tequila",n:"Jose Cuervo DLF Reposado",s:"70cl",p:2700},{c:"Tequila",n:"Jose Cuervo DLF Extra Anejo",s:"70cl",p:2900},
+  {c:"Tequila",n:"Clase Azul Reposado",s:"70cl",p:3800},
+  {c:"Cognac",n:"Hennessy VSOP",s:"70cl",p:1200},{c:"Cognac",n:"Martell VSOP Red Barrel",s:"70cl",p:1000},
+  {c:"Cognac",n:"Martell NCF",s:"70cl",p:1100},{c:"Cognac",n:"Martell Noblige",s:"70cl",p:1300},
+  {c:"Cognac",n:"Hennessy XO",s:"70cl",p:3400},{c:"Cognac",n:"Martell XO",s:"70cl",p:3400},
+  {c:"Cognac",n:"Martell Cordon Bleu",s:"70cl",p:2800},{c:"Cognac",n:"Martell Cordon Bleu",s:"1L",p:3900},
+  {c:"Cognac",n:"Rémy Martin XO",s:"70cl",p:3300},{c:"Cognac",n:"Rémy Martin Club Fine",s:"70cl",p:1800},
+  {c:"Cognac",n:"James Hennessy",s:"70cl",p:2700},
+  {c:"Whisky",n:"Kavalan ConcertMaster Sherry",s:"70cl",p:1400},{c:"Whisky",n:"Kavalan ConcertMaster Port",s:"70cl",p:1600},
+  {c:"Whisky",n:"Kavalan Distillery Select No.2",s:"70cl",p:1400},{c:"Whisky",n:"Kavalan Triple Sherry Cask",s:"70cl",p:1700},
+  {c:"Whisky",n:"Kavalan Oloroso Sherry Oak",s:"70cl",p:2000},
+  {c:"Whisky",n:"Dalmore 12",s:"70cl",p:1600},{c:"Whisky",n:"Dalmore 12 Sherry Cask",s:"70cl",p:1700},
+  {c:"Whisky",n:"Dalmore 15",s:"70cl",p:2700},{c:"Whisky",n:"Dalmore 18",s:"70cl",p:4800},
+  {c:"Whisky",n:"Dalmore Cigar Malt",s:"70cl",p:3000},{c:"Whisky",n:"Dalmore KA III",s:"70cl",p:4600},
+  {c:"Whisky",n:"Aberfeldy 12",s:"70cl",p:1000},{c:"Whisky",n:"Aberfeldy 16",s:"70cl",p:1700},
+  {c:"Whisky",n:"Aberfeldy 21",s:"70cl",p:3700},{c:"Whisky",n:"Arran Sherry Cask",s:"70cl",p:1300},
+  {c:"Whisky",n:"Arran Quarter Cask",s:"70cl",p:1250},{c:"Whisky",n:"Arran Barrel Reserve",s:"70cl",p:1100},
+  {c:"Whisky",n:"Bushmills 10",s:"70cl",p:1100},{c:"Whisky",n:"Glenfarclas 25",s:"70cl",p:5500},
+  {c:"Whisky",n:"Bowmore 12",s:"70cl",p:1000},{c:"Whisky",n:"Oban 14",s:"70cl",p:1500},
+  {c:"Whisky",n:"Glenmorangie X",s:"70cl",p:1100},{c:"Whisky",n:"Glenmorangie 12",s:"70cl",p:1300},
+  {c:"Whisky",n:"Glenmorangie 16",s:"70cl",p:1700},{c:"Whisky",n:"Glenmorangie Signet",s:"70cl",p:4500},
+  {c:"Whisky",n:"Glendronach 12",s:"70cl",p:1350},{c:"Whisky",n:"Glendronach 15 Sherry Cask",s:"70cl",p:3200},
+  {c:"Whisky",n:"Glendronach 21",s:"70cl",p:5800},{c:"Whisky",n:"Auchentoshan 3 Wood",s:"70cl",p:1000},
+  {c:"Whisky",n:"Dalwhinnie 15",s:"70cl",p:1500},{c:"Whisky",n:"Lagavulin 16",s:"70cl",p:2300},
+  {c:"Whisky",n:"GlenGrant Arboralis",s:"70cl",p:1000},
+  {c:"Whisky",n:"Hibiki Japanese Harmony",s:"70cl",p:2500},{c:"Whisky",n:"Hibiki JH Master Select",s:"70cl",p:3000},
+  {c:"Whisky",n:"Yamazaki DR",s:"70cl",p:3200},{c:"Whisky",n:"Yamazaki 12",s:"70cl",p:5000},
+  {c:"Whisky",n:"Yamazaki 18",s:"70cl",p:18000},{c:"Whisky",n:"Nikka from the Barrel",s:"50cl",p:1300},
+  {c:"Whisky",n:"Nikka Days Smooth",s:"70cl",p:1100},{c:"Whisky",n:"Nikka Super Rare",s:"70cl",p:1300},
+  {c:"Whisky",n:"Tenjaku Japanese",s:"70cl",p:650},{c:"Whisky",n:"Suntory Kakubin",s:"70cl",p:650},
+  {c:"Whisky",n:"The Chita",s:"70cl",p:1100},
+  {c:"Whisky",n:"Macallan Quest",s:"1L",p:2000},{c:"Whisky",n:"Macallan 12 Sherry Oak",s:"70cl",p:2000},
+  {c:"Whisky",n:"Macallan 12 Double Cask",s:"70cl",p:1900},{c:"Whisky",n:"Macallan 12 Triple Cask",s:"70cl",p:2000},
+  {c:"Whisky",n:"Macallan 15 Sherry Oak",s:"70cl",p:4300},{c:"Whisky",n:"Macallan 15 Double Cask",s:"70cl",p:3500},
+  {c:"Whisky",n:"Macallan 18 Double Cask",s:"70cl",p:7800},{c:"Whisky",n:"Macallan 18 Sherry Oak",s:"70cl",p:8500},
+  {c:"Whisky",n:"Macallan 18 Triple Cask",s:"70cl",p:11000},{c:"Whisky",n:"Macallan Classic Cut",s:"70cl",p:2800},
+  {c:"Whisky",n:"Macallan Aera",s:"70cl",p:3000},{c:"Whisky",n:"Macallan Night on Earth",s:"70cl",p:2800},
+  {c:"Whisky",n:"Macallan Enigma",s:"70cl",p:7500},{c:"Whisky",n:"Macallan Terra",s:"70cl",p:6000},
+  {c:"Whisky",n:"Macallan Rare Cask",s:"70cl",p:8500},{c:"Whisky",n:"Macallan Harmony Arabica",s:"70cl",p:5300},
+  {c:"Whisky",n:"Macallan Harmony Green Meadow",s:"70cl",p:6500},{c:"Whisky",n:"Macallan Harmony Rich Cacao",s:"70cl",p:5500},
+  {c:"Whisky",n:"Balvenie 12 DoubleWood",s:"70cl",p:1400},{c:"Whisky",n:"Balvenie 14 Caribbean Cask",s:"70cl",p:2000},
+  {c:"Whisky",n:"Balvenie 15 Madeira Cask",s:"70cl",p:3500},{c:"Whisky",n:"Balvenie 16 French Oak",s:"70cl",p:3800},
+  {c:"Whisky",n:"Balvenie 18 PX Cask",s:"70cl",p:6300},
+  {c:"Whisky",n:"Glenfiddich 12",s:"70cl",p:850},{c:"Whisky",n:"Glenfiddich 12",s:"1L",p:1200},
+  {c:"Whisky",n:"Glenfiddich 15",s:"1L",p:1400},{c:"Whisky",n:"Glenfiddich 15",s:"70cl",p:1200},
+  {c:"Whisky",n:"Glenfiddich 16",s:"70cl",p:2000},{c:"Whisky",n:"Glenfiddich 18",s:"70cl",p:1900},
+  {c:"Whisky",n:"Glenfiddich IPA",s:"70cl",p:1400},{c:"Whisky",n:"Glenfiddich 21",s:"70cl",p:4600},
+  {c:"Whisky",n:"Glenfiddich 22",s:"70cl",p:5000},{c:"Whisky",n:"Glenfiddich 23 Grand Cru",s:"70cl",p:6300},
+  {c:"Whisky",n:"Glenlivet Founders Reserve",s:"70cl",p:800},{c:"Whisky",n:"Glenlivet 12",s:"70cl",p:850},
+  {c:"Whisky",n:"Glenlivet 15",s:"70cl",p:1400},{c:"Whisky",n:"Glenlivet 18",s:"70cl",p:2000},
+  {c:"Whisky",n:"Glenlivet Triple Cask",s:"1L",p:1200},{c:"Whisky",n:"Glenlivet White Oak",s:"1L",p:1300},
+  {c:"Whisky",n:"Glenlivet 25",s:"70cl",p:8500},
+  {c:"Whisky",n:"Singleton 12 Glendullan",s:"70cl",p:900},{c:"Whisky",n:"Singleton 12 LN",s:"70cl",p:750},
+  {c:"Whisky",n:"Singleton Malt Master",s:"70cl",p:750},{c:"Whisky",n:"Singleton 15 Glendullan",s:"70cl",p:1500},
+  {c:"Whisky",n:"Singleton 15 Fruity Decadence",s:"70cl",p:1300},{c:"Whisky",n:"Singleton 18 Dufftown",s:"70cl",p:1800},
+  {c:"Whisky",n:"Singleton 18 GO",s:"70cl",p:2100},{c:"Whisky",n:"Singleton 21 Dufftown",s:"70cl",p:4300},
+  {c:"Whisky",n:"JW Red Label",s:"75cl",p:450},{c:"Whisky",n:"JW Red Label",s:"1L",p:550},
+  {c:"Whisky",n:"JW Black Label",s:"1L",p:750},{c:"Whisky",n:"JW Double Black",s:"1L",p:850},
+  {c:"Whisky",n:"JW 18 Platinum",s:"75cl",p:1700},{c:"Whisky",n:"JW Blue Label",s:"75cl",p:2900},
+  {c:"Whisky",n:"JW XR 21",s:"70cl",p:2300},
+  {c:"Whisky",n:"Royal Salute 21",s:"70cl",p:2500},{c:"Whisky",n:"Monkey Shoulder",s:"70cl",p:700},
+  {c:"Whisky",n:"Jameson",s:"70cl",p:500},{c:"Whisky",n:"Jameson",s:"1L",p:600},
+  {c:"Whisky",n:"Jameson Black Barrel",s:"70cl",p:800},{c:"Whisky",n:"Jim Beam White",s:"70cl",p:500},
+  {c:"Whisky",n:"Jack Daniel's",s:"70cl",p:625},{c:"Whisky",n:"Jack D Honey",s:"70cl",p:650},
+  {c:"Whisky",n:"Jack D Honey",s:"1L",p:800},{c:"Whisky",n:"Dewar's 12",s:"70cl",p:650},
+  {c:"Whisky",n:"Dewar's 15",s:"70cl",p:850},{c:"Whisky",n:"Dewar's 18",s:"70cl",p:1300},
+  {c:"Whisky",n:"Chivas 12",s:"70cl",p:700},{c:"Whisky",n:"Chivas 18",s:"70cl",p:1200},
+  {c:"Whisky",n:"Chivas 18",s:"1L",p:1600},{c:"Whisky",n:"Ballantine's Finest",s:"70cl",p:450},
+  {c:"Whisky",n:"Ballantine's 17",s:"70cl",p:1200},{c:"Whisky",n:"Ballantine's 21",s:"70cl",p:2100},
+  {c:"Vodka",n:"Absolut",s:"75cl",p:450},{c:"Vodka",n:"Belvedere",s:"70cl",p:800},
+  {c:"Vodka",n:"Cîroc Original",s:"70cl",p:750},{c:"Vodka",n:"Grey Goose",s:"75cl",p:700},
+  {c:"Vodka",n:"Grey Goose",s:"1L",p:950},
+  {c:"Gin",n:"Wint & Lila",s:"70cl",p:800},{c:"Gin",n:"Bombay Sapphire",s:"70cl",p:500},
+  {c:"Gin",n:"Roku",s:"70cl",p:600},{c:"Gin",n:"Malfy Rosa",s:"70cl",p:850},
+  {c:"Gin",n:"Malfy Orange",s:"70cl",p:850},{c:"Gin",n:"Malfy Limone",s:"70cl",p:850},
+  {c:"Gin",n:"Hendrick's",s:"1L",p:950},{c:"Gin",n:"Hendrick's",s:"70cl",p:750},
+  {c:"Gin",n:"Hendrick's Amazonia",s:"70cl",p:850},{c:"Gin",n:"Tanqueray",s:"70cl",p:550},
+  {c:"Gin",n:"Tanqueray Blackcurrant Royale",s:"70cl",p:800},{c:"Gin",n:"Tanqueray No.10",s:"75cl",p:1000},
+  {c:"Gin",n:"East Indies Pink",s:"70cl",p:550},{c:"Gin",n:"East Indies Negroni",s:"70cl",p:550},
+  {c:"Gin",n:"East Indies Archipelago",s:"70cl",p:550},{c:"Gin",n:"Four Pillars Spiced Negroni",s:"70cl",p:900},
+  {c:"Gin",n:"Four Pillars Dry Gin",s:"70cl",p:800},{c:"Gin",n:"Four Pillars Bloody Shiraz",s:"70cl",p:850},
+  {c:"Gin",n:"Four Pillars Yuzu",s:"70cl",p:800},
+  {c:"Red Wine",n:"Edizione",s:"750ml",p:750},{c:"Red Wine",n:"Penfolds Bin 28 Shiraz",s:"750ml",p:850},
+  {c:"Red Wine",n:"Penfolds Bin 8 Shiraz Cabernet",s:"750ml",p:900},{c:"Red Wine",n:"Penfolds Bin 128 Shiraz",s:"750ml",p:1000},
+  {c:"Red Wine",n:"Penfolds Bin 138 Shiraz",s:"750ml",p:900},{c:"Red Wine",n:"Penfolds Bin 389 Cabernet Shiraz",s:"750ml",p:1500},
+  {c:"Red Wine",n:"Penfolds Bin 507 Cab Sauv",s:"750ml",p:1800},{c:"Red Wine",n:"Penfolds St. Henri Shiraz",s:"750ml",p:2000},
+  {c:"Red Wine",n:"Penfolds Bin 796 Shiraz",s:"750ml",p:3500},{c:"Red Wine",n:"Penfolds Max's Cab Sauv",s:"750ml",p:650},
+  {c:"Red Wine",n:"Penfolds Max's Shiraz Cabernet",s:"750ml",p:650},{c:"Red Wine",n:"Penfolds Max's Shiraz",s:"750ml",p:650},
+  {c:"Red Wine",n:"Penfolds Koonunga Hill Shiraz",s:"750ml",p:450},{c:"Red Wine",n:"Penfolds Koonunga Hill Shiraz Cab",s:"750ml",p:450},
+  {c:"Red Wine",n:"Zolla Primitivo Di Manduria",s:"750ml",p:550},{c:"Red Wine",n:"Zolla Primitivo Merlot",s:"750ml",p:500},
+  {c:"Red Wine",n:"Campo Lucarelli Merlot",s:"750ml",p:500},{c:"Red Wine",n:"Campo Lucarelli Di Manduria",s:"750ml",p:500},
+  {c:"Red Wine",n:"Imuri Primitivo",s:"750ml",p:450},{c:"Red Wine",n:"Imuri Negroamaro",s:"750ml",p:450},
+  {c:"Red Wine",n:"Cockburn Special Reserve",s:"750ml",p:600},{c:"Red Wine",n:"Cockburn Fine Ruby",s:"750ml",p:600},
+  {c:"Red Wine",n:"Cockburn Fine Tawny",s:"750ml",p:600},{c:"Red Wine",n:"Cockburn Late Bottled Vintage",s:"750ml",p:650},
+  {c:"Red Wine",n:"Cockburn 10 yo",s:"750ml",p:1000},{c:"Red Wine",n:"Cockburn 20 yo",s:"750ml",p:1600},
+  {c:"Red Wine",n:"Porto Cruz Tawny",s:"750ml",p:600},{c:"Red Wine",n:"Porto Cruz Ruby",s:"750ml",p:600},
+  {c:"Red Wine",n:"Porto Cruz Special Reserve",s:"750ml",p:750},{c:"Red Wine",n:"Porto Cruz 10 yo",s:"750ml",p:1050},
+  {c:"Red Wine",n:"Kaiken Ultra Malbec",s:"750ml",p:700},{c:"Red Wine",n:"Lindemans Bin 40 Merlot",s:"750ml",p:350},
+  {c:"Red Wine",n:"Lindemans Bin 45 Cab Sauv",s:"750ml",p:350},{c:"Red Wine",n:"Lindemans Bin 50 Shiraz",s:"750ml",p:350},
+  {c:"Red Wine",n:"Lindemans Bin 99 Pinot Noir",s:"750ml",p:350},{c:"Red Wine",n:"Rawson's Retreat Shiraz Cab",s:"750ml",p:350},
+  {c:"Red Wine",n:"Rawson's Retreat Merlot",s:"750ml",p:350},{c:"Red Wine",n:"Beringer FE Cab Sauv",s:"750ml",p:450},
+  {c:"Red Wine",n:"Beringer FE Merlot",s:"750ml",p:450},{c:"Red Wine",n:"Beringer FE Pinot Noir",s:"750ml",p:450},
+  {c:"Red Wine",n:"BV Merlot",s:"750ml",p:500},{c:"Red Wine",n:"BV Cab Sauv",s:"750ml",p:500},
+  {c:"Red Wine",n:"Shearwater Pinot Noir",s:"750ml",p:450},{c:"Red Wine",n:"19 Crimes Cab Sauv",s:"750ml",p:450},
+  {c:"Red Wine",n:"19 Crimes Cali Red",s:"750ml",p:450},{c:"Red Wine",n:"19 Crimes Shiraz",s:"750ml",p:450},
+  {c:"Red Wine",n:"Yellowtail Jammy Red",s:"750ml",p:350},{c:"Red Wine",n:"Yellowtail Big Bold Red",s:"750ml",p:350},
+  {c:"Red Wine",n:"Yellowtail Pinot Noir",s:"750ml",p:350},{c:"Red Wine",n:"Yellowtail Cab Sauv",s:"750ml",p:350},
+  {c:"Red Wine",n:"Accademia Lambrusco",s:"750ml",p:350},
+  {c:"White Wine",n:"Accademia Moscato",s:"750ml",p:400},{c:"White Wine",n:"Lindemans Moscato",s:"750ml",p:350},
+  {c:"White Wine",n:"Alba Luna Moscato",s:"750ml",p:400},{c:"White Wine",n:"Yellowtail Moscato",s:"750ml",p:350},
+  {c:"White Wine",n:"Banrock Moscato",s:"750ml",p:400},{c:"White Wine",n:"Batasiolo Moscato",s:"750ml",p:550},
+  {c:"White Wine",n:"Jacob's Creek Moscato",s:"750ml",p:400},{c:"White Wine",n:"Riunite Prosecco",s:"750ml",p:450},
+  {c:"White Wine",n:"Cinzano Extra Dry",s:"750ml",p:500},{c:"White Wine",n:"Cinzano Bianco",s:"750ml",p:500},
+  {c:"White Wine",n:"Cinzano Asti Sparkling",s:"750ml",p:450},{c:"White Wine",n:"Cinzano Asti",s:"750ml",p:475},
+  {c:"White Wine",n:"Lindemans Bin 65 Chardonnay",s:"750ml",p:350},{c:"White Wine",n:"Lindemans Bin 95 Sauv Blanc",s:"750ml",p:350},
+  {c:"White Wine",n:"Lindemans Pinot Grigio",s:"750ml",p:350},{c:"White Wine",n:"Lindemans Bin 35 Rosé",s:"750ml",p:350},
+  {c:"White Wine",n:"Rawson's Retreat Sauv Blanc",s:"750ml",p:350},{c:"White Wine",n:"Yellowtail Sauv Blanc",s:"750ml",p:350},
+  {c:"White Wine",n:"Yellowtail Chardonnay",s:"750ml",p:350},{c:"White Wine",n:"Jacob's Creek Chardonnay",s:"750ml",p:350},
+  {c:"White Wine",n:"BV Chardonnay",s:"750ml",p:500},{c:"White Wine",n:"Penfolds Max's Chardonnay",s:"750ml",p:650},
+  {c:"White Wine",n:"Penfolds Koonunga Hill Chardonnay",s:"750ml",p:450},{c:"White Wine",n:"Cockburn Fine White",s:"750ml",p:600},
+  {c:"White Wine",n:"Porto Cruz Pink Rosé",s:"750ml",p:600},{c:"White Wine",n:"Don Alejandro Sweet White",s:"750ml",p:300},
+  {c:"White Wine",n:"Don Alejandro Sauv Blanc",s:"750ml",p:300},{c:"White Wine",n:"Beringer FE Chardonnay",s:"750ml",p:450},
+  {c:"White Wine",n:"Beringer FE Sauv Blanc",s:"750ml",p:450},{c:"White Wine",n:"Lindemans Bin 46 Sweet Red",s:"750ml",p:350},
+  {c:"Champagne",n:"Moët & Chandon Imperial Brut",s:"75cl",p:1500},{c:"Champagne",n:"Moët & Chandon Ice",s:"75cl",p:1700},
+  {c:"Champagne",n:"Moët & Chandon Imperial Rosé",s:"75cl",p:1800},{c:"Champagne",n:"Duval Leroy Brut",s:"75cl",p:1300},
+  {c:"Liqueur",n:"Baileys Original",s:"75cl",p:450},{c:"Liqueur",n:"Baileys Strawberry",s:"75cl",p:650},
+  {c:"Liqueur",n:"Amaretto Disaronno",s:"70cl",p:750},{c:"Liqueur",n:"Aperol",s:"70cl",p:550},
+  {c:"Liqueur",n:"Kahlúa",s:"70cl",p:600},{c:"Liqueur",n:"Jägermeister",s:"70cl",p:500},
+  {c:"Liqueur",n:"Cointreau",s:"70cl",p:600},{c:"Liqueur",n:"Martini Rosso",s:"1L",p:600},
+  {c:"Liqueur",n:"Martini Dry",s:"1L",p:600},{c:"Liqueur",n:"Bols Triple Sec",s:"70cl",p:525},
+  {c:"Liqueur",n:"Campari",s:"70cl",p:575},{c:"Liqueur",n:"Southern Comfort",s:"70cl",p:600},
+  {c:"Liqueur",n:"Accademia Limoncello",s:"70cl",p:750},
+  {c:"Rum",n:"Captain Morgan Apple",s:"70cl",p:300},{c:"Rum",n:"Captain Morgan",s:"70cl",p:400},
+  {c:"Rum",n:"Captain Morgan White",s:"70cl",p:400},{c:"Rum",n:"Bacardi Spiced",s:"70cl",p:450},
+  {c:"Rum",n:"Bacardi Light Carta",s:"70cl",p:450},{c:"Rum",n:"Myers Rum",s:"70cl",p:500},
+  {c:"Rum",n:"Malibu Coconut",s:"70cl",p:600},{c:"Rum",n:"Kraken Black Spiced",s:"70cl",p:900},
+  {c:"Rum",n:"Plantation Dark Rum",s:"70cl",p:600},{c:"Rum",n:"Plantation White",s:"70cl",p:650},
+];
+
+// ── BASKET STATE ──
+const basket = {}; // key → { name, size, price, qty }
+
+function key(n,s){ return `${n}||${s}`; }
+
+function addItem(name, size, price){
+  const k = key(name,size);
+  if(basket[k]) basket[k].qty++;
+  else basket[k] = {name,size,price,qty:1};
+  syncBasket();
+  openDrawer();
+}
+
+function changeQty(k, delta){
+  if(!basket[k]) return;
+  basket[k].qty += delta;
+  if(basket[k].qty <= 0) delete basket[k];
+  syncBasket();
+}
+
+function removeItem(k){
+  delete basket[k];
+  syncBasket();
+}
+
+function clearBasket(){
+  Object.keys(basket).forEach(k => delete basket[k]);
+  syncBasket();
+  closeDrawer();
+}
+
+function totalQty(){ return Object.values(basket).reduce((s,v)=>s+v.qty,0); }
+function totalPrice(){ return Object.values(basket).reduce((s,v)=>s+(v.price*v.qty),0); }
+
+function syncBasket(){
+  const qty = totalQty();
+  const countEl = document.getElementById('basket-count');
+  const toggleEl = document.getElementById('basket-toggle');
+  countEl.hidden = qty === 0;
+  countEl.textContent = qty;
+  toggleEl.classList.toggle('has-items', qty > 0);
+
+  renderDrawer();
+  // update add-btn states in catalog
+  document.querySelectorAll('.add-btn').forEach(b => {
+    const k = b.dataset.key;
+    const inB = !!basket[k];
+    b.classList.toggle('in', inB);
+    b.textContent = inB ? basket[k].qty : '+';
+    b.setAttribute('title', inB ? `${basket[k].qty} in basket — click to add more` : 'Add to basket');
+  });
+}
+
+function renderDrawer(){
+  const items = Object.entries(basket);
+  const drawerItems = document.getElementById('drawer-items');
+  const drawerFt = document.getElementById('drawer-ft');
+  const drawerTotal = document.getElementById('drawer-total');
+
+  if(items.length === 0){
+    drawerItems.innerHTML = '<div class="basket-empty">Your basket is empty.</div>';
+    drawerFt.hidden = true;
+    return;
+  }
+
+  drawerFt.hidden = false;
+  drawerTotal.innerHTML = `${totalPrice().toLocaleString()}<sub>k</sub>`;
+
+  drawerItems.innerHTML = items.map(([k,v]) => `
+    <div class="bitem">
+      <div class="bitem-info">
+        <div class="bitem-name">${v.name}</div>
+        <div class="bitem-size">${v.size}</div>
+        <div class="bitem-line">${v.price.toLocaleString()}k × ${v.qty} = ${(v.price*v.qty).toLocaleString()}k</div>
+      </div>
+      <div class="qty-ctrl">
+        <button class="qty-btn" data-key="${k}" data-d="-1">−</button>
+        <div class="qty-val">${v.qty}</div>
+        <button class="qty-btn" data-key="${k}" data-d="1">+</button>
+      </div>
+      <button class="bitem-del" data-key="${k}" title="Remove">✕</button>
+    </div>`).join('');
+
+  drawerItems.querySelectorAll('.qty-btn').forEach(b =>
+    b.addEventListener('click', () => changeQty(b.dataset.key, parseInt(b.dataset.d))));
+  drawerItems.querySelectorAll('.bitem-del').forEach(b =>
+    b.addEventListener('click', () => removeItem(b.dataset.key)));
+}
+
+// ── DRAWER TOGGLE ──
+function openDrawer(){
+  document.getElementById('backdrop').classList.add('open');
+  document.getElementById('drawer').classList.add('open');
+}
+function closeDrawer(){
+  document.getElementById('backdrop').classList.remove('open');
+  document.getElementById('drawer').classList.remove('open');
+}
+document.getElementById('basket-toggle').addEventListener('click', openDrawer);
+document.getElementById('drawer-close').addEventListener('click', closeDrawer);
+document.getElementById('backdrop').addEventListener('click', closeDrawer);
+document.getElementById('clear-btn').addEventListener('click', clearBasket);
+
+// ── WHATSAPP ORDER ──
+document.getElementById('wa-btn').addEventListener('click', function() {
+  const lines = Object.values(basket).map(v =>
+    `• ${v.qty}x ${v.name} ${v.size} — ${(v.price*v.qty).toLocaleString()}k`).join('\n');
+  const total = totalPrice().toLocaleString();
+  const msg = `Halo Mickysonline! 🥃\n\nI'd like to order:\n${lines}\n\n*Total: ${total}k*\n\nNama:\nAlamat:\nPembayaran:`;
+  this.href = `https://wa.me/628119788269?text=${encodeURIComponent(msg)}`;
+});
+
+// ── PROMO CARDS ──
+const ps = document.getElementById('promo-scroll');
+PROMOS.forEach(p => {
+  const card = document.createElement('div');
+  card.className = 'promo-card';
+  card.innerHTML = `
+    <div class="promo-card-name">${p.name}</div>
+    <div class="promo-card-sub">${p.size} · buy 2</div>
+    <div class="promo-card-price">${p.price.toLocaleString()}<small>k</small></div>
+    <button class="promo-card-add">+ Add to basket</button>`;
+  card.querySelector('.promo-card-add').addEventListener('click', e => {
+    e.stopPropagation();
+    addItem(p.name + ' ★Promo', p.size, p.price);
+  });
+  ps.appendChild(card);
+});
+
+// ── CATEGORY TAGS ──
+const cats = [...new Set(ALL.map(i=>i.c))];
+const tEl = document.getElementById('tags');
+tEl.insertAdjacentHTML('beforeend','<button class="tag on" data-c="All">All</button>');
+cats.forEach(c => tEl.insertAdjacentHTML('beforeend',`<button class="tag" data-c="${c}">${c}</button>`));
+
+let activeCat = 'All';
+tEl.addEventListener('click', e=>{
+  const b = e.target.closest('.tag'); if(!b) return;
+  activeCat = b.dataset.c;
+  tEl.querySelectorAll('.tag').forEach(t=>t.classList.toggle('on', t.dataset.c===activeCat));
+  render();
+});
+document.getElementById('q').addEventListener('input', render);
+
+function fmt(n){ return n.toLocaleString(); }
+
+function render(){
+  const q = document.getElementById('q').value.toLowerCase().trim();
+  const items = ALL.filter(i=>{
+    return (activeCat==='All' || i.c===activeCat) &&
+           (!q || i.n.toLowerCase().includes(q) || i.c.toLowerCase().includes(q));
+  });
+
+  document.getElementById('meta').textContent = items.length
+    ? `${items.length} item${items.length!==1?'s':''}`
+    : '';
+
+  const el = document.getElementById('catalog');
+  if(!items.length){ el.innerHTML='<p class="no-res">No items match.</p>'; return; }
+
+  const groups={};
+  items.forEach(i=>{ (groups[i.c]??=[]).push(i); });
+
+  el.innerHTML = Object.entries(groups).map(([cat,list])=>`
+    <div class="section">
+      <div class="section-hd">${cat}</div>
+      ${list.map(i=>{
+        const k = key(i.n,i.s);
+        const inB = !!basket[k];
+        return `<div class="row${inB?' in-basket':''}">
+          <div class="row-name">${i.n}<span class="row-size">${i.s}</span></div>
+          <div class="row-price">${fmt(i.p)}<sub>k</sub></div>
+          <button class="add-btn${inB?' in':''}" data-key="${k}" data-n="${i.n}" data-s="${i.s}" data-p="${i.p}"
+            title="${inB?`${basket[k].qty} in basket`:'Add to basket'}">${inB?basket[k].qty:'+'}</button>
+        </div>`;
+      }).join('')}
+    </div>`).join('');
+
+  el.querySelectorAll('.add-btn').forEach(b => b.addEventListener('click', () =>
+    addItem(b.dataset.n, b.dataset.s, parseInt(b.dataset.p))
+  ));
+}
+
+render();
+</script>
